@@ -1,189 +1,201 @@
-//Initialize
-EcwidApp.init({
-    app_id:'customer-group-pricing',
-    autoloadedflag:true,
-    autoheight:true,
+var Cxgroup;
 
-
-});
-EcwidApp.ready();
-//Get Store Data
-// var storeData = EcwidApp.getPayload();
-// var storeId = storeData.access_token;
-// var language = storeData.lang;
-// var ViewMode = storeData.view_mode;
-var xhttp = new XMLHttpRequest();
+const customerInfo = {};
+const cxGrId = {};
 var storeId = 98501509;
 var public_token = 'Bearer public_PUb7yJJDWc5RYj1nL7aXHJFT5j5bn2hW';
-var private_token = 'Bearer ';
-
-
-function startApp(){
-    var requestURL = 'https://app.ecwid.com/api/v3/'+storeId+'/customer_groups';
-    var xhttp = new XMLHttpRequest();
-    xhttp.open("GET", requestURL, true);
-    xhttp.setRequestHeader("Authorization", public_token)
-    xhttp.send();
-
-    xhttp.onreadystatechange = function() {
-        if (xhttp.readyState == 4 && xhttp.status == 200) {
-        var apiResponse = xhttp.responseText;
-        console.log(apiResponse); // prints response in format of Search Products request in Ecwid API
-        }
-    };
-//Determine if theres a public and private token
-    if(storeData.public_token !== undefined){
-        var publicToken = storeData.public_token;
-
-    }
-    if(storeData.private_token !== undefined){
-        var privateToken = storeData.private_token;
-    }
-    if(storeData.app_state !== undefined){
-        var appState = storeData.app_state;
-    }
-}
-
-
-//////////////////////////////////////////////////////////
-//For User/App verification and data saving/loading
-
-
-
-
-
-
-//For a new user who installs the app
-function saveSettings(cx_GrID){
-    //Saves data for app storage
-    
-
-}
-// Executes if we have a user who logs in to the app not the first time. We load their preferences from Application storage with Ecwid JS SDK and display them in the app interface
-function getCustomer(){
-    // Retrieve all keys and values from application storage, including public app config. Set the values for select, input and textarea elements on a page in a callback
-    EcwidApp.getAppStorage(function(allValues){
-        setValuesForPage(allValues);
-    });
-}
-function displayForGroup(grID){
-    //displays the categories for the customer based on their group id
-    //For regular customers group ID 0
-    //const cats = ['163181566','163191831','163183556','163184815','163184814','163191832', '163191833', '163196808']; //Category ID's
-
-
-    if(grID = '0'){
-        
-        for(let i = 0; i < cats.length; i++){
-            var currentCat = cats[i];
-            var requestURL = 'https://app.ecwid.com/api/v3/'+storeId+'/categories/'+currentCat;
-            var xhttp = new XMLHttpRequest();
-            xhttp.open("PUT", requestURL, true);
-            xhttp.setRequestHeader("Authorization", private_token)
-            xhttp.send();
-    
-            xhttp.onreadystatechange = function() {
-                if (xhttp.readyState == 4 && xhttp.status == 200) {
-                var apiResponse = xhttp.responseText;
-                console.log(apiResponse); // prints response in format of Search Products request in Ecwid API
-                }
-            };
-        }
-    }
-    //For Blooms
-    if(grID = '23865254'){
-
-    }
-    //For Blooms tier 2
-    if(grID = '23865251'){
-
-    }
-    //For plumbers
-    if(grID = '23865252'){
-
-    }
-}
-// Executes when we need to save data. Gets all elements' values and saves them to Application storage and public app config via Ecwid JS SDK
-
-//Main app function to determine if the user is new or just logs into the app
-EcwidApp.getAppStorage('installed', function(value){
-    if(value!=null){
-        getUserData();
-    }else{
-        createUserData();
-    }
-
-})
-
-
-////////////////////////////////////////////////////
-//For the actual customer pricing information
-
-var cxGroups;
-var categories = '';
-//Function to get Customer Groups
-function getCxGroups(id){
-    //document.querySelector()
-    const options = {
+var requestURLGroups = 'https://app.ecwid.com/api/v3/'+storeId+'/customer_groups';
+//FOR LIVE SITE const products = ['613224679','613222359','613224661','613222163','613225187','613226056','JACKS>>','613233550','613231400','613223218','613232937','613221650','613234818','613223104']; //Calmag, Cleanse, Fade, Bloom, Core, Grow // Jacks Part A, B, Bloom, Epsom, RO, Ultra Violet, Finish
+//For test site
+const products = ['625285756','625238809']
+//Get the customer and their group
+function getGroups(){
+    const grOPT = {
         method: 'GET',
-        headers: {accept: 'application/json', Authorization: 'Bearer e***s0'}
-      };
-      
-      fetch('https://app.ecwid.com/api/v3/'+storeId+'/customer_groups', options)
+        headers: {accept:'application/json', Authorization: public_token}
+    };
+    
+    fetch(requestURLGroups, grOPT)
         .then(response => response.json())
         .then(response => console.log(response))
+        .then(customerInfo = response)
         .catch(err => console.error(err));
-        cxGroups = stringify(response);
-
+    cxGrId = JSON.stringify(customerInfo.customerGroupId);
+    
+    //Some magic or some shit
 }
 
-//Function to get Categories 
-function getCategories(){
-    var requestURL = 'https://app.ecwid.com/api/v3/'+storeId+'/categories';
-    var xhttp = new XMLHttpRequest();
-    xhttp.open("GET", requestURL, true);
-    xhttp.setRequestHeader("Authorization", token)
-    xhttp.send();
-
-    xhttp.onreadystatechange = function() {
-        if (xhttp.readyState == 4 && xhttp.status == 200) {
-        var apiResponse = xhttp.responseText;
-        console.log(apiResponse); // prints response in format of Search Products request in Ecwid API
+function run(){
+    getGroups();
+    if(cxGrId != ''){
+        for(ids of cxGrId){
+            if(customerInfo.customerGroup = '23865254'){
+                //Get Products and replaces their pricing
+                runProducts();
+            }
         }
-    };
-}
-//Function to find what cateogires are applied to what groups
-function matchCategories(cx_id,categoryData){
-
-}
-//Function to display categories, will be in for loop
-function hideCategories(cx_id,categories){
-    //Finds the categories that are marked hi_{cx_id} and hides them with css code
-}
-//Update/Save category data
-function saveCategories(cx_id,catData){
-
-}
-//run calculations
-
-if(cxGroups !== ''){
-    //Gets list of categories
-    
-    //Finds what categories are applied to the customer group
-
-    //Displays Categories
-
-    //When the save button is pressed updates the categories that have been selected
-    var selGroup=document.getElementById("groupOptions");
-    for(var i = 0; i < cxGroups.length; i++){
-        var opt = options[i];
-        var ops = document.createElement("option");
-        ops.textContent = opt;
-        ops.value = opt;
-        selGroup=appendChild(ops);
+    }else{
+        console.log("error collecting groups");
     }
-
-}else{
-    
-    
 }
+//Get the products to be enabled and disabled
+function runProducts(){
+    //uses product id's to deactivate and activate
+    const productToActivate = [];
+    const productsToDeactivate = [];
+    //for loop required here for each product to activate and deactivate
+    
+    for(const productID of products){
+        var reqURL_Products = 'https://app.ecwid.com/api/v3/'+storeId+'/products/'+productID;
+        const Product = {};
+        const productGET = {
+            method: 'GET',
+            headers: {accept:'application/json', Authorization: public_token}
+        };
+        const productPUT = {
+            method: 'PUT',
+            headers: {accept:'application/json', 
+            Authorization: public_token,
+            'content/type':'application/json'
+            }
+        };
+
+        fetch(reqURL_Products, productGET)
+        .then(response => response.json())
+        .then(response => console.log(response))
+        .then(Product = response)
+        .catch(err => console.error(err));
+        //Gotta have that double redundancy to change pricing depending on the ID
+        if (Product.productID = productID){
+            switch(productID){
+                //For test site
+                case productID = '625285756':
+                    Product.price = '185.00';
+                    break;
+                case productID = '625238809':
+                    Product.price = '77.00';
+                    break;
+                // ////////////////////For Athena////////////////////
+                // case productID = '': //For Athena Pro Gro
+                //     case Product.variant = '1':
+                //         Product.price = '19.2'; 
+                //         break;
+                //     case Product.variant = '2':
+                //         Product.price = '181.00';
+                //         break;
+                // case productID = '': //For Athena Pro Core
+                //     case Product.variant = '1':
+                //         Product.price = '19.2'; 
+                //         break;
+                //     case Product.variant = '2':
+                //         Product.price = '181.00';
+                //         break;
+                // case productID = '': //For Athena Pro Bloom
+                //     case Product.variant = '1':
+                //         Product.price = '19.2'; 
+                //         break;
+                //     case Product.variant = '2':
+                //         Product.price = '181.00';
+                //         break;
+                // case productID = '': //For Athena CalMag
+                //     case Product.variant = '1':
+                //         Product.price = '36.46'; 
+                //         break;
+                //     case Product.variant = '2':
+                //         Product.price = '162.00';
+                //         break;
+                // case productID = '': //For Athena Cleanse
+                //     case Product.variant = '1':
+                //         Product.price = '60';
+                //         break;
+                //     case Product.variant = '2':
+                //         Product.price = '243';
+                //         break;
+                //     case Product.variant = '3':
+                //         Product.price = '2268.00'
+                //         break;
+                // case productID = '': //For Athena Fade
+                //     case Product.variant = '1':
+                //         Product.price = '36.59';    
+                //         break;
+                //     case Product.variant = '2':
+                //         Product.price = '162'
+                //         break;
+                //     case Product.variant = '3':
+                //         Product.price = '1498';
+                //         break;
+                // ////////////////////For Jack's////////////////////
+                // case productID = '': //For Jack's Part A
+                //     case Product.variant = '1':
+                //         Product.price = '131.59'; //Variant 1 is 11kg variant for all of jacks
+                //         break;
+                //     case Product.variant = '2':
+                //         Product.price = '29.86';
+                //         break;
+                // case productID = '': //For Yara Calnit
+                //     case Product.variant = '1':
+                //         Product.price = '58.50'; 
+                //         break;
+                //     case Product.variant = '2':
+                //         Product.price = '2.34';
+                //         break;
+                //     case Product.variant = '3':
+                //         Product.price = '11.7';
+                //         break
+                // case productID = '': //For Jack's Bloom
+                //     case Product.variant = '1':
+                //         Product.price = '165.24';
+                //         break;
+                //     case Product.variant = '2':
+                //         Product.price = '33.61';
+                //         break;
+                // case productID = '': //For Jack's RO
+                //     case Product.variant = '1': 
+                //         Product.price = '120.41'; 
+                //         break;
+                //     case Product.variant = '2':
+                //         Product.price = '33.61';
+                //         break; 
+                // case productID = '': //For Jack's Ultraviolet
+                //     case Product.variant = '1': 
+                //         Product.price = '187.60'; 
+                //         break;
+                //     case Product.variant = '2': 
+                //         Product.price = '34.46';
+                //         break;
+                // case productID = '': //For Jack's Finish
+                //     case Product.variant = '1':
+                //         Product.price = '137.202'; 
+                //         break;
+                //     case Product.variant = '2':
+                //         Product.price = '30.78';
+                //         break;
+                // case productID = '': //For Epsom Salts
+                //     case Product.variant = '2':
+                //         Product.price = '9.36';
+                //         break;
+                //     case Product.variant = '3':
+                //         Product.price = '46.8';
+                //         break;
+            }
+            fetch(reqURL_Products, productPUT)
+            .then(response => response.json())
+            .then(response => console.log(response))
+            .catch(err => console.error(err));
+        }
+    
+
+    //for loop to deactivate products & activate products ////////////////////If price changing fails
+
+    //Going to attempt to change price even though price is controlled by xSeries. Standby for that
+    
+    }
+}
+Ecwid.OnPageLoaded.add(function(page){
+    if(page.type == 'CATEGORY'){
+        run();
+    }
+    
+});
+
+
