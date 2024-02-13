@@ -15,6 +15,7 @@ EcwidApp.ready();
 var xhttp = new XMLHttpRequest();
 var storeId = 98501509;
 var public_token = 'Bearer public_PUb7yJJDWc5RYj1nL7aXHJFT5j5bn2hW';
+var private_token = 'Bearer ';
 
 
 function startApp(){
