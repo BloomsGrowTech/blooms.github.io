@@ -32,10 +32,51 @@ function run(){
             if(customerInfo.customerGroup = '23865254'){
                 //Get Products and replaces their pricing
                 runProducts();
+            }else{
+                resetProducts();
             }
         }
     }else{
         console.log("error collecting groups");
+    }
+}
+///////////To reset product prices
+function resetProducts(){
+    for (const productID of products){
+        var reqURL_Products = 'https://app.ecwid.com/api/v3/'+storeId+'/products/'+productID;
+        const Product = {};
+        const productGET = {
+            method: 'GET',
+            headers: {accept:'application/json', Authorization: public_token}
+        };
+        const productPUT = {
+            method: 'PUT',
+            headers: {accept:'application/json', 
+            Authorization: public_token,
+            'content/type':'application/json'
+            }
+        };
+
+        fetch(reqURL_Products, productGET)
+        .then(response => response.json())
+        .then(response => console.log(response))
+        .then(Product = response)
+        .catch(err => console.error(err));
+
+        if (Product.productID = productID){
+            switch(productID){
+                case productID = '625285756':
+                    Product.price = '275.00';
+                    break;
+                case productID = '625238809':
+                    Product.price = '85.00';
+                    break;
+            }
+        }
+        fetch(reqURL_Products, productPUT)
+        .then(response => response.json())
+        .then(response => console.log(response))
+        .catch(err => console.error(err));
     }
 }
 //Get the products to be enabled and disabled
