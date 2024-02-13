@@ -15,7 +15,7 @@ EcwidApp.ready();
 var xhttp = new XMLHttpRequest();
 var storeId = 98501509;
 var public_token = 'Bearer public_PUb7yJJDWc5RYj1nL7aXHJFT5j5bn2hW';
-var private_token = 'Bearer secret_k1yeHJeWwkxvnxduCxH4KMUyTa16VepZ'
+var private_token = 'Bearer secret_k1yeHJeWwkxvnxduCxH4KMUyTa16VepZ';
 
 function startApp(){
     var requestURL = 'https://app.ecwid.com/api/v3/'+storeId+'/customer_groups';
@@ -68,7 +68,7 @@ function getCustomer(){
 function displayForGroup(grID){
     //displays the categories for the customer based on their group id
     //For regular customers group ID 0
-    const cats = ['163181566','163191831','163183556','163184815','163184814','163191832', '163191833', '163196808'];
+    //const cats = ['163181566','163191831','163183556','163184815','163184814','163191832', '163191833', '163196808']; //Category ID's
 
 
     if(grID = '0'){
@@ -183,6 +183,6 @@ if(cxGroups !== ''){
     }
 
 }else{
-    document.getElementById("DropdownContent").innerHTML = "No options present";
+    
     
 }
