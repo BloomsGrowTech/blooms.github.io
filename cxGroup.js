@@ -8,7 +8,7 @@ var requestURLGroups = 'https://app.ecwid.com/api/v3/'+storeId+'/customer_groups
 function getGroups(){
     const grOPT = {
         method: 'GET',
-        headers: {accept:'application/json', Authorization public_token}
+        headers: {accept:'application/json', Authorization: public_token}
     };
     
     fetch(requestURLGroups, grOPT)
