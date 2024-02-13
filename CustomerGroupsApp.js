@@ -7,7 +7,7 @@ var public_token = 'Bearer public_PUb7yJJDWc5RYj1nL7aXHJFT5j5bn2hW';
 var requestURLGroups = 'https://app.ecwid.com/api/v3/'+storeId+'/customer_groups';
 //FOR LIVE SITE const products = ['613224679','613222359','613224661','613222163','613225187','613226056','JACKS>>','613233550','613231400','613223218','613232937','613221650','613234818','613223104']; //Calmag, Cleanse, Fade, Bloom, Core, Grow // Jacks Part A, B, Bloom, Epsom, RO, Ultra Violet, Finish
 //For test site
-const products = ['625285756','625238809']
+const products = ['625285756','625238809', '625270554', '625285757']
 //Get the customer and their group
 function getGroups(){
     const grOPT = {
@@ -65,11 +65,17 @@ function resetProducts(){
 
         if (Product.productID = productID){
             switch(productID){
-                case productID = '625285756':
+                case productID = '625285756': //Nutrient
                     Product.price = '275.00';
                     break;
-                case productID = '625238809':
+                case productID = '625238809': //Additive
                     Product.price = '85.00';
+                    break;
+                case productID = '625270554': //Humidifier
+                    Product.price = '1500';
+                    break;
+                case productID = '625285757': //Dehumidifier
+                    Product.price = '1900';
                     break;
             }
         }
@@ -115,6 +121,12 @@ function runProducts(){
                     break;
                 case productID = '625238809':
                     Product.price = '77.00';
+                    break;
+                case productID = '625270554': //Humidifier
+                    Product.price = '1250';
+                    break;
+                case productID = '625285757': //Dehumidifier
+                    Product.price = '1650';
                     break;
                 // ////////////////////For Athena////////////////////
                 // case productID = '': //For Athena Pro Gro
