@@ -1,4 +1,4 @@
-//Written 3:11pm, test after this shows
+//Written 3:15pm, test after this shows
 var Cxgroup;
 
 const customerInfo = {};
@@ -8,13 +8,13 @@ var public_token = 'Bearer public_PUb7yJJDWc5RYj1nL7aXHJFT5j5bn2hW';
 
 //FOR LIVE SITE const products = ['613224679','613222359','613224661','613222163','613225187','613226056','JACKS>>','613233550','613231400','613223218','613232937','613221650','613234818','613223104']; //Calmag, Cleanse, Fade, Bloom, Core, Grow // Jacks Part A, B, Bloom, Epsom, RO, Ultra Violet, Finish
 //For test site
-const products = ['625285756','625238809', '625270554', '625285757']
+const products = ['625285756','625238809', '625270554', '625285757'];
 
 ///////////To reset product prices
 function resetProducts(){
     alert('Resetting Products');
     for (const productID of products){
-        alert('FOR ' + productID + ' ');
+        console.log('FOR ' + productID + ' ');
         var reqURL_Products = 'https://app.ecwid.com/api/v3/'+storeId+'/products/'+productID;
         const Product = {};
         // const productGET = {
@@ -38,14 +38,14 @@ function resetProducts(){
             if (xhttp.readyState == 4 && xhttp.status == 200) {
                 product = xhttp.responseJSON;
                 
-                alert(JSON.stringify(product)); // prints response in format of Search Products request in Ecwid API
+                console.log(JSON.stringify(product)); // prints response in format of Search Products request in Ecwid API
             }else{
-                alert(xhttp.readyState + '<<State | Status>> '+xhttp.statusText);
+                console.log(xhttp.readyState + '<<State | Status>> '+xhttp.statusText);
             }
         };
     
         if (Product.productID = productID){
-            alert('Product ids match, finding which product');
+            console.log('Product ids match, finding which product');
             switch(productID){ //Resets product price
                 case productID = '625285756': //Nutrient
                     Product.price = '275.00';
@@ -70,16 +70,16 @@ function resetProducts(){
         put.onreadystatechange = function() {
             if (xhttp.readyState == 4 && xhttp.status == 200) {
                 var apiResponse = xhttp.responseText;
-                alert(apiResponse); // prints response in format of Search Products request in Ecwid API
+                console.log(apiResponse); // prints response in format of Search Products request in Ecwid API
             }else{
-                alert(xhttp.readyState + '<<State | Status>> '+xhttp.statusText);
+                console.log(xhttp.readyState + '<<State | Status>> '+xhttp.statusText);
             }
         };
     }
 }
 //Get the products to be enabled and disabled
 function runProducts(){
-    alert('in runProducts()');
+    console.log('in runProducts()');
     //uses product id's to deactivate and activate
     // const productToActivate = [];
     // const productsToDeactivate = [];
@@ -87,7 +87,7 @@ function runProducts(){
     
     //To alter pricing
     for(const productID of products){
-        alert('For product id: '+productID);
+        console.log('For product id: '+productID);
         var reqURL_Products = 'https://app.ecwid.com/api/v3/'+storeId+'/products/'+productID;
         const Product = {};
         // const productGET = {
@@ -110,9 +110,9 @@ function runProducts(){
             if (xhttp.readyState == 4 && xhttp.status == 200) {
                 var productInfo = xhttp.responseJSON;
                 Product = productInfo;
-                alert(xhttp.responseText); // prints response in format of Search Products request in Ecwid API
+                console.log(xhttp.responseText); // prints response in format of Search Products request in Ecwid API
             }else{
-                alert(xhttp.readyState + '<<State | Status>> '+xhttp.statusText);
+                console.log(xhttp.readyState + '<<State | Status>> '+xhttp.statusText);
             }
         };
         // fetch(reqURL_Products, productGET)
@@ -247,10 +247,10 @@ function runProducts(){
             put.onreadystatechange = function() {
                 if (xhttp.readyState == 4 && xhttp.status == 200) {
                    var apiResponse = xhttp.responseText;
-                   alert(apiResponse); // prints response in format of Search Products request in Ecwid API
+                   console.log(apiResponse); // prints response in format of Search Products request in Ecwid API
                    put.send(JSON.stringify(Product));
                 }else{
-                    alert(xhttp.readyState + '<<State | Status>> '+xhttp.statusText);
+                    console.log(xhttp.readyState + '<<State | Status>> '+xhttp.statusText);
                 }
             };
             
@@ -264,10 +264,10 @@ function runProducts(){
     }
 }
 function run(custGroupID){
-    alert('Running RUN(), groupID is: ' + custGroupID);
+    console.log('Running RUN(), groupID is: ' + custGroupID);
     custGroupID = JSON.stringify(custGroupID);
     if(custGroupID = '23865254'){
-        alert('RUNNING PRODUCTS');
+        console.log('RUNNING PRODUCTS');
         runProducts();
         // for(ids of cxGrId){
         //     if(customerInfo.customerGroup = '23865254'){
@@ -281,15 +281,15 @@ function run(custGroupID){
         //     }
         // }
     }else if(custGroupID = '0'){
-        alert('No Customer Group Found')
+        console.log('No Customer Group Found')
     }else {
-        alert('Something happened when getting customer groups');
+        console.log('Something happened when getting customer groups');
     }
 }
 
 window.Ecwid.OnSetProfile.add(function(customer){
-    alert('Member signed in');
-    alert('Member data is: ' + JSON.stringify(customer));
+    console.log('Member signed in');
+    console.log('Member data is: ' + JSON.stringify(customer));
     const membership = customer.membership;
 
     run(membership.id);
