@@ -33,7 +33,7 @@ function getGroups(){
 
     caughtID = JSON.stringify(customerInfo.customerGroupId);
     alert('Caught ID: '+ caughtID);
-    if (caughtID != ''){
+    if (caughtID != undefined){
         alert('Fetched '+caughtID);
         return caughtID;
     } else{
