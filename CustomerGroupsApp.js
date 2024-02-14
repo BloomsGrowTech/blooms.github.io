@@ -1,4 +1,4 @@
-//Written 3:01pm, test after this shows
+//Written 3:07pm, test after this shows
 var Cxgroup;
 
 const customerInfo = {};
@@ -264,8 +264,8 @@ function runProducts(){
     }
 }
 function run(custGroupID){
-    alert('Running RUN()');
-    
+    alert('Running RUN(), groupID is: ' + custGroupID);
+    custGroupID = JSON.stringify(custGroupID);
     if(custGroupID = '23865254'){
         alert('RUNNING PRODUCTS');
         runProducts();
@@ -288,7 +288,11 @@ function run(custGroupID){
 }
 
 Ecwid.OnSetProfile.add(function(customer){
-    run(customer.membership.id);
+    alert('Member signed in');
+    alert('Member data is: ' + JSON.stringify(customer));
+    const membership = customer.membership;
+
+    run(membership.id);
 
 })
 // window.Ecwid.OnPageLoaded.add(function(page){
