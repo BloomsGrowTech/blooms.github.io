@@ -262,7 +262,7 @@ function run(){
 
 window.Ecwid.OnPageLoaded.add(function(page){
     alert('Page loaded: '+page.type);
-    
+    alert('About to run function run()');
     run();
     // if(page.type == 'CATEGORY'){
     //     run();
