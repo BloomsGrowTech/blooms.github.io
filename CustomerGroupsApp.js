@@ -25,7 +25,7 @@ function getGroups(){
         if (xhttp.readyState == 4 && xhttp.status == 200) {
             var customerInfo = xhttp.responseJSON;
             caughtID = customerInfo.customerGroupID;
-            alert(apiResponse); // prints response in format of Search Products request in Ecwid API
+            alert(customerInfo); // prints response in format of Search Products request in Ecwid API
         }else{
             alert(xhttp.readyState + '<<State | Status>> '+xhttp.statusText);
         }
@@ -71,9 +71,9 @@ function resetProducts(){
     
         get.onreadystatechange = function() {
             if (xhttp.readyState == 4 && xhttp.status == 200) {
-                var apiResponse = xhttp.responseJSON;
-                caughtID = customerInfo.customerGroupID;
-                alert(apiResponse); // prints response in format of Search Products request in Ecwid API
+                product = xhttp.responseJSON;
+                
+                alert(JSON.stringify(product)); // prints response in format of Search Products request in Ecwid API
             }else{
                 alert(xhttp.readyState + '<<State | Status>> '+xhttp.statusText);
             }
@@ -277,16 +277,18 @@ function runProducts(){
             var put = new XMLHttpRequest();
             put.open("PUT", reqURL_Products, true);
             put.setRequestHeader("Authorization", public_token);
-            put.send(JSON.stringify(Product));
+            
         
             put.onreadystatechange = function() {
                 if (xhttp.readyState == 4 && xhttp.status == 200) {
                    var apiResponse = xhttp.responseText;
                    alert(apiResponse); // prints response in format of Search Products request in Ecwid API
+                   put.send(JSON.stringify(Product));
                 }else{
                     alert(xhttp.readyState + '<<State | Status>> '+xhttp.statusText);
                 }
             };
+            
         }
     
 
