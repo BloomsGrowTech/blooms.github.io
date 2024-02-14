@@ -25,24 +25,11 @@ function getGroups(){
     //Some magic or some shit
 }
 
-function run(){
-    getGroups();
-    if(cxGrId != ''){
-        for(ids of cxGrId){
-            if(customerInfo.customerGroup = '23865254'){
-                //Get Products and replaces their pricing
-                runProducts();
-            }else{
-                resetProducts();
-            }
-        }
-    }else{
-        console.log("error collecting groups");
-    }
-}
+
 ///////////To reset product prices
 function resetProducts(){
     for (const productID of products){
+        alert('FOR ' + productID + ' ');
         var reqURL_Products = 'https://app.ecwid.com/api/v3/'+storeId+'/products/'+productID;
         const Product = {};
         const productGET = {
@@ -62,9 +49,9 @@ function resetProducts(){
         .then(response => console.log(response))
         .then(Product = response)
         .catch(err => console.error(err));
-
+        alert(Product.name + Product.price);
         if (Product.productID = productID){
-            switch(productID){
+            switch(productID){ //Resets product price
                 case productID = '625285756': //Nutrient
                     Product.price = '275.00';
                     break;
@@ -244,9 +231,37 @@ function runProducts(){
     
     }
 }
+function run(){
+    getGroups();
+    if(cxGrId != ''){
+        for(ids of cxGrId){
+            if(customerInfo.customerGroup = '23865254'){
+                //Get Products and replaces their pricing
+                alert('RUNNING PRODUCTS');
+                runProducts();
+                
+            }else{
+                alert('RESETTING PRODUCTS');
+                resetProducts();
+            }
+        }
+    }else{
+        console.log("error collecting groups");
+        alert('ERRORRRR COLLECTING GROUPS FAILED :(');
+    }
+}
+
 Ecwid.OnPageLoaded.add(function(page){
+    alert('Page loaded '+page.type);
+    alert('Page loaded '+JSON.stringify(page.type));
+    console.log(page.type);
+    console.log('Page loaded');
     if(page.type == 'CATEGORY'){
         run();
+    }else if(page.type == 'PRODUCT'){
+        run();
+    }else{
+        alert('ERROR ' + JSON.stringify(page.type));
     }
     
 });
