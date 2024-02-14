@@ -36,9 +36,9 @@ function resetProducts(){
     
         get.onreadystatechange = function() {
             if (xhttp.readyState == 4 && xhttp.status == 200) {
-                product = xhttp.responseJSON;
+                Product = xhttp.responseJSON;
                 
-                console.log(JSON.stringify(product)); // prints response in format of Search Products request in Ecwid API
+                console.log(JSON.stringify(Product)); // prints response in format of Search Products request in Ecwid API
             }else{
                 console.log(xhttp.readyState + '<<State | Status>> '+xhttp.statusText);
             }
@@ -255,6 +255,8 @@ function runProducts(){
                    put.send(JSON.stringify(Product));
                 }else{
                     console.log(xhttp.readyState + '<<State | Status>> '+xhttp.statusText);
+                    put.abort();
+                    console.log('Aborted the saving of the product due to failed status');
                 }
             };
             
@@ -291,13 +293,16 @@ function run(custGroupID){
     }
 }
 
-Ecwid.OnSetProfile.add(function(customer){
-    console.log('Member signed in');
-    console.log('Member data is: ' + JSON.stringify(customer));
-    const membership = customer.membership;
-
-    run(membership.id);
-
+Ecwid.OnPageLoaded.add(function(page){
+    const Cust = Ecwid.OnSetProfile.add(function(customer){
+        console.log('Member signed in');
+        console.log('data is: ' + JSON.stringify(customer));
+        const membership = customer.membership;
+    
+    });
+    if (Cust.membership.id != 0){  
+        run(membership.id);
+    }
 });
 // window.Ecwid.OnPageLoaded.add(function(page){
 //     alert('Page loaded: '+page.type);
