@@ -1,7 +1,6 @@
 var Cxgroup;
-
-const customerInfo = {};
-const cxGrId = {};
+const customerInfo = [];
+const cxGrId = [];
 var storeId = 98501509;
 var public_token = 'Bearer public_PUb7yJJDWc5RYj1nL7aXHJFT5j5bn2hW';
 var requestURLGroups = 'https://app.ecwid.com/api/v3/'+storeId+'/customer_groups';
@@ -11,7 +10,8 @@ const products = ['625285756','625238809', '625270554', '625285757']
 //Get the customer and their group
 function getGroups(){
     alert('Getting group ids');
-    var caughtID;
+
+    var caughtID = '';
     const grOPT = {
         method: 'GET',
         headers: {accept:'application/json', Authorization: public_token}
@@ -23,7 +23,7 @@ function getGroups(){
         .then(customerInfo = response)
         .catch(err => console.error(err));
     caughtID = JSON.stringify(customerInfo.customerGroupId);
-    if (caughtID != null){
+    if (caughtID != ''){
         alert('Fetched '+caughtID);
         return caughtID;
     } else{
@@ -257,6 +257,7 @@ function runProducts(){
 }
 function run(){
     alert('Running RUN()');
+
     cxGrId = getGroups();
     if(cxGrId != ''){
         for(ids of cxGrId){
