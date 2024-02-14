@@ -261,7 +261,7 @@ function run(){
     }
 }
 
-window.Ecwid.OnPageLoad.add(function(page){
+window.Ecwid.OnPageLoaded.add(function(page){
     alert('Page loaded: '+page.type);
     
     if(page.type == 'CATEGORY'){
