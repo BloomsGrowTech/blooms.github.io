@@ -264,7 +264,7 @@ function run(){
 window.Ecwid.OnPageLoad.add(function(page){
     alert('Page loaded: '+page.type);
     
-    if(page.type == 'SITE'){
+    if(page.type == 'CATEGORY'){
         run();
     }
     // if(page.type == 'CATEGORY'){
