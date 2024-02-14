@@ -1,4 +1,4 @@
-//Written 3:15pm, test after this shows
+//Written 3:18pm, test after this shows
 var Cxgroup;
 
 const customerInfo = {};
@@ -59,7 +59,11 @@ function resetProducts(){
                 case productID = '625285757': //Dehumidifier
                     Product.price = '1900';
                     break;
+                default:
+                    console.log(productID + ' actual product id: ' + Product.productID);
             }
+        }else{
+            console.log('Product ID could not match, product id is: ' + Product.productID);
         }
 
         var put = new XMLHttpRequest();
