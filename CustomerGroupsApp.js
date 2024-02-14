@@ -261,10 +261,10 @@ function run(){
     }
 }
 
-Ecwid.OnPageLoad.add(function(page){
+window.Ecwid.OnPageLoad.add(function(page){
     alert('Page loaded: '+page.type);
     
-    if(page.type == 'CATEGORY'){
+    if(page.type == 'SITE'){
         run();
     }
     // if(page.type == 'CATEGORY'){
