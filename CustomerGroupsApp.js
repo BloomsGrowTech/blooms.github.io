@@ -261,18 +261,17 @@ function run(){
     }
 }
 
-Ecwid.OnPageLoaded.add(function(page){
+Ecwid.OnPageLoad.add(function(page){
     alert('Page loaded '+page.type);
-    alert('Page loaded '+JSON.stringify(page.type));
-    console.log(page.type);
-    console.log('Page loaded');
-    if(page.type == 'CATEGORY'){
-        run();
-    }else if(page.type == 'PRODUCT'){
-        run();
-    }else{
-        alert('ERROR ' + JSON.stringify(page.type));
-    }
+    //alert('Page loaded '+JSON.stringify(page.type));
+    run();
+    // if(page.type == 'CATEGORY'){
+    //     run();
+    // }else if(page.type == 'PRODUCT'){
+        
+    // }else{
+    //     alert('ERROR ' + JSON.stringify(page.type));
+    // }
     
 });
 
