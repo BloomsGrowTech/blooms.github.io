@@ -12,13 +12,10 @@ const products = ['625285756','625238809', '625270554', '625285757']
 function getGroups(){
     alert('Getting group ids');
     var caughtID = '';
-    const grOPT = {
-        method: 'GET',
-        headers: {accept:'application/json', Authorization: public_token}
-    };
+
     var xhttp = new XMLHttpRequest();
     xhttp.open('GET', requestURLGroups, true);
-    xhttp.setRequestHeader(grOPT.headers);
+    xhttp.setRequestHeader('Authorization', public_token);
     xhttp.send();
 
     xhttp.onreadystatechange = function() {
