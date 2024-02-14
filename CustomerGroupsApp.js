@@ -17,8 +17,8 @@ function getGroups(){
         headers: {accept:'application/json', Authorization: public_token}
     };
     var xhttp = new XMLHttpRequest();
-    xhttp.open(grOPT.method, requestURLGroups, true);
-    xhttp.setRequestHeader(grOPT,public_token);
+    xhttp.open('GET', requestURLGroups, true);
+    xhttp.setRequestHeader(grOPT.headers);
     xhttp.send();
 
     xhttp.onreadystatechange = function() {
