@@ -262,9 +262,11 @@ function run(){
 }
 
 Ecwid.OnPageLoad.add(function(page){
-    alert('Page loaded '+page.type);
-    //alert('Page loaded '+JSON.stringify(page.type));
-    run();
+    alert('Page loaded: '+page.type);
+    
+    if(page.type == 'CATEGORY'){
+        run();
+    }
     // if(page.type == 'CATEGORY'){
     //     run();
     // }else if(page.type == 'PRODUCT'){
