@@ -256,7 +256,6 @@ function run(){
             }
         }
     }else{
-        console.log("error collecting groups");
         alert('ERRORRRR COLLECTING GROUPS FAILED :(');
     }
 }
@@ -264,9 +263,7 @@ function run(){
 window.Ecwid.OnPageLoaded.add(function(page){
     alert('Page loaded: '+page.type);
     
-    if(page.type == 'CATEGORY'){
-        run();
-    }
+    run();
     // if(page.type == 'CATEGORY'){
     //     run();
     // }else if(page.type == 'PRODUCT'){
