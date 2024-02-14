@@ -1,4 +1,4 @@
-//Written 3:07pm, test after this shows
+//Written 3:11pm, test after this shows
 var Cxgroup;
 
 const customerInfo = {};
@@ -287,7 +287,7 @@ function run(custGroupID){
     }
 }
 
-Ecwid.OnSetProfile.add(function(customer){
+window.Ecwid.OnSetProfile.add(function(customer){
     alert('Member signed in');
     alert('Member data is: ' + JSON.stringify(customer));
     const membership = customer.membership;
