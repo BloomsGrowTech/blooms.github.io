@@ -1,86 +1,51 @@
+//Written 3:24pm, test after this shows
 var Cxgroup;
 
 const customerInfo = {};
 const cxGrId = {};
 var storeId = 98501509;
 var public_token = 'Bearer public_PUb7yJJDWc5RYj1nL7aXHJFT5j5bn2hW';
-var requestURLGroups = 'https://app.ecwid.com/api/v3/'+storeId+'/customer_groups';
+
 //FOR LIVE SITE const products = ['613224679','613222359','613224661','613222163','613225187','613226056','JACKS>>','613233550','613231400','613223218','613232937','613221650','613234818','613223104']; //Calmag, Cleanse, Fade, Bloom, Core, Grow // Jacks Part A, B, Bloom, Epsom, RO, Ultra Violet, Finish
 //For test site
-const products = ['625285756','625238809', '625270554', '625285757']
-//Get the customer and their group
-function getGroups(){
-    alert('Getting group ids');
-    var caughtID = '';
-    const grOPT = {
-        method: 'GET',
-        headers: {accept:'application/json', Authorization: public_token}
-    };
-    var xhttp = new XMLHttpRequest();
-    xhttp.open("GET", requestURLGroups, true);
-    xhttp.setRequestHeader("Authorization", public_token)
-    xhttp.send();
-
-    xhttp.onreadystatechange = function() {
-        if (xhttp.readyState == 4 && xhttp.status == 200) {
-            var customerInfo = xhttp.responseJSON;
-            caughtID = customerInfo.customerGroupID;
-            alert(apiResponse); // prints response in format of Search Products request in Ecwid API
-        }else{
-            alert(xhttp.readyState + '<<State | Status>> '+xhttp.statusText);
-        }
-    };
-
-    caughtID = JSON.stringify(customerInfo.customerGroupId);
-    alert('Caught ID: '+ caughtID);
-    if (caughtID != ''){
-        alert('Fetched '+caughtID);
-        return caughtID;
-    } else{
-        alert('Error catching ID');
-        return '0';
-    }
-    
-    //Some magic or some shit
-}
-
+const products = ['625285756','625238809', '625270554', '625285757'];
 
 ///////////To reset product prices
 function resetProducts(){
     alert('Resetting Products');
     for (const productID of products){
-        alert('FOR ' + productID + ' ');
+        console.log('FOR ' + productID + ' ');
         var reqURL_Products = 'https://app.ecwid.com/api/v3/'+storeId+'/products/'+productID;
         const Product = {};
-        const productGET = {
-            method: 'GET',
-            headers: {accept:'application/json', Authorization: public_token}
-        };
-        const productPUT = {
-            method: 'PUT',
-            headers: {accept:'application/json', 
-            Authorization: public_token,
-            'content/type':'application/json'
-            }
-        };
+        // const productGET = {
+        //     method: 'GET',
+        //     headers: {accept:'application/json', Authorization: public_token}
+        // };
+        // const productPUT = {
+        //     method: 'PUT',
+        //     headers: {accept:'application/json', 
+        //     Authorization: public_token,
+        //     'content/type':'application/json'
+        //     }
+        // };
 
         var get = new XMLHttpRequest();
         get.open("GET", reqURL_Products, true);
-        get.setRequestHeader("Authorization", public_token)
+        get.setRequestHeader("Authorization", public_token);
         get.send();
     
         get.onreadystatechange = function() {
             if (xhttp.readyState == 4 && xhttp.status == 200) {
-                var apiResponse = xhttp.responseJSON;
-                caughtID = customerInfo.customerGroupID;
-                alert(apiResponse); // prints response in format of Search Products request in Ecwid API
+                Product = xhttp.responseJSON;
+                
+                console.log(JSON.stringify(Product)); // prints response in format of Search Products request in Ecwid API
             }else{
-                alert(xhttp.readyState + '<<State | Status>> '+xhttp.statusText);
+                console.log(xhttp.readyState + '<<State | Status>> '+xhttp.statusText);
             }
         };
     
         if (Product.productID = productID){
-            alert('Product ids match, finding which product');
+            console.log('Product ids match, finding which product');
             switch(productID){ //Resets product price
                 case productID = '625285756': //Nutrient
                     Product.price = '275.00';
@@ -94,27 +59,31 @@ function resetProducts(){
                 case productID = '625285757': //Dehumidifier
                     Product.price = '1900';
                     break;
+                default:
+                    console.log(productID + ' actual product id: ' + Product.productID);
             }
+        }else{
+            console.log('Product ID could not match, product id is: ' + Product.productID);
         }
 
         var put = new XMLHttpRequest();
         put.open("PUT", reqURL_Products, true);
-        put.setRequestHeader("Authorization", public_token)
+        put.setRequestHeader("Authorization", public_token);
         put.send(JSON.stringify(Product));
         
         put.onreadystatechange = function() {
             if (xhttp.readyState == 4 && xhttp.status == 200) {
                 var apiResponse = xhttp.responseText;
-                alert(apiResponse); // prints response in format of Search Products request in Ecwid API
+                console.log(apiResponse); // prints response in format of Search Products request in Ecwid API
             }else{
-                alert(xhttp.readyState + '<<State | Status>> '+xhttp.statusText);
+                console.log(xhttp.readyState + '<<State | Status>> '+xhttp.statusText);
             }
         };
     }
 }
 //Get the products to be enabled and disabled
 function runProducts(){
-    alert('in runProducts()');
+    console.log('in runProducts()');
     //uses product id's to deactivate and activate
     // const productToActivate = [];
     // const productsToDeactivate = [];
@@ -122,32 +91,32 @@ function runProducts(){
     
     //To alter pricing
     for(const productID of products){
-        alert('For product id: '+productID);
+        console.log('For product id: '+productID);
         var reqURL_Products = 'https://app.ecwid.com/api/v3/'+storeId+'/products/'+productID;
         const Product = {};
-        const productGET = {
-            method: 'GET',
-            headers: {accept:'application/json', Authorization: public_token}
-        };
-        const productPUT = {
-            method: 'PUT',
-            headers: {accept:'application/json', 
-            Authorization: public_token,
-            'content/type':'application/json'
-            }
-        };
+        // const productGET = {
+        //     method: 'GET',
+        //     headers: {accept:'application/json', Authorization: public_token}
+        // };
+        // const productPUT = {
+        //     method: 'PUT',
+        //     headers: {accept:'application/json', 
+        //     Authorization: public_token,
+        //     'content/type':'application/json'
+        //     }
+        // };
         var xhttp = new XMLHttpRequest();
         xhttp.open("GET", reqURL_Products, true);
-        xhttp.setRequestHeader("Authorization", public_token)
+        xhttp.setRequestHeader("Authorization", public_token);
         xhttp.send();
     
         xhttp.onreadystatechange = function() {
             if (xhttp.readyState == 4 && xhttp.status == 200) {
                 var productInfo = xhttp.responseJSON;
                 Product = productInfo;
-                alert(xhttp.responseText); // prints response in format of Search Products request in Ecwid API
+                console.log(xhttp.responseText); // prints response in format of Search Products request in Ecwid API
             }else{
-                alert(xhttp.readyState + '<<State | Status>> '+xhttp.statusText);
+                console.log(xhttp.readyState + '<<State | Status>> '+xhttp.statusText);
             }
         };
         // fetch(reqURL_Products, productGET)
@@ -276,17 +245,21 @@ function runProducts(){
             }
             var put = new XMLHttpRequest();
             put.open("PUT", reqURL_Products, true);
-            put.setRequestHeader("Authorization", public_token)
-            put.send(JSON.stringify(Product));
+            put.setRequestHeader("Authorization", public_token);
+            
         
             put.onreadystatechange = function() {
                 if (xhttp.readyState == 4 && xhttp.status == 200) {
                    var apiResponse = xhttp.responseText;
-                   alert(apiResponse); // prints response in format of Search Products request in Ecwid API
+                   console.log(apiResponse); // prints response in format of Search Products request in Ecwid API
+                   put.send(JSON.stringify(Product));
                 }else{
-                    alert(xhttp.readyState + '<<State | Status>> '+xhttp.statusText);
+                    console.log(xhttp.readyState + '<<State | Status>> '+xhttp.statusText);
+                    put.abort();
+                    console.log('Aborted the saving of the product due to failed status');
                 }
             };
+            
         }
     
 
@@ -296,38 +269,53 @@ function runProducts(){
     
     }
 }
-function run(){
-    alert('Running RUN()');
-    cxGrId = getGroups();
-    if(cxGrId != ''){
-        for(ids of cxGrId){
-            if(customerInfo.customerGroup = '23865254'){
-                //Get Products and replaces their pricing
-                alert('RUNNING PRODUCTS');
-                runProducts();
+function run(custGroupID){
+    console.log('Running RUN(), groupID is: ' + custGroupID);
+    custGroupID = JSON.stringify(custGroupID);
+    if(custGroupID = '23865254'){
+        console.log('RUNNING PRODUCTS');
+        runProducts();
+        // for(ids of cxGrId){
+        //     if(customerInfo.customerGroup = '23865254'){
+        //         //Get Products and replaces their pricing
+        //         alert('RUNNING PRODUCTS');
+        //         runProducts();
                 
-            }else{
-                alert('RESETTING PRODUCTS');
-                resetProducts();
-            }
-        }
-    }else{
-        alert('ERRORRRR COLLECTING GROUPS FAILED :(');
+        //     }else{
+        //         alert('RESETTING PRODUCTS');
+        //         resetProducts();
+        //     }
+        // }
+    }else if(custGroupID = '0'){
+        console.log('No Customer Group Found');
+    }else {
+        console.log('Something happened when getting customer groups');
     }
 }
 
-window.Ecwid.OnPageLoaded.add(function(page){
-    alert('Page loaded: '+page.type);
-    alert('About to run function run()');
-    run();
-    // if(page.type == 'CATEGORY'){
-    //     run();
-    // }else if(page.type == 'PRODUCT'){
+window.Ecwid.OnPageLoad.add(function(page){ //For some reason grabbing the current customer is impossible.
+    var Cust = Ecwid.OnSetProfile.add(function(customer){
+        console.log('Member signed in');
+        console.log('data is: ' + JSON.stringify(customer));
+        return customer;
         
-    // }else{
-    //     alert('ERROR ' + JSON.stringify(page.type));
-    // }
-    
+    });
+    if (Cust.membership.id != 0){  
+        run(membership.id);
+    }
 });
+// window.Ecwid.OnPageLoaded.add(function(page){
+//     alert('Page loaded: '+page.type);
+//     alert('About to run function run()');
+//     run();
+//     // if(page.type == 'CATEGORY'){
+//     //     run();
+//     // }else if(page.type == 'PRODUCT'){
+        
+//     // }else{
+//     //     alert('ERROR ' + JSON.stringify(page.type));
+//     // }
+    
+// });
 
 
