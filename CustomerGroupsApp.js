@@ -291,7 +291,7 @@ function run(custGroupID){
     }
 }
 
-window.Ecwid.OnSetProfile.add(function(customer){
+Ecwid.OnSetProfile.add(function(customer){
     console.log('Member signed in');
     console.log('Member data is: ' + JSON.stringify(customer));
     const membership = customer.membership;
