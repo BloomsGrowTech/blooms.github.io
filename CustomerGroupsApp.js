@@ -19,7 +19,7 @@ function getGroups(){
     
     fetch(requestURLGroups, grOPT)
         .then(response => response.json())
-        .then(response => console.log(response))
+        .then(response => alert(response))
         .then(customerInfo = response)
         .catch(err => console.error(err));
     caughtID = JSON.stringify(customerInfo.customerGroupId);
