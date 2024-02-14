@@ -1,4 +1,4 @@
-//Written 3:18pm, test after this shows
+//Written 3:24pm, test after this shows
 var Cxgroup;
 
 const customerInfo = {};
@@ -285,20 +285,20 @@ function run(custGroupID){
         //     }
         // }
     }else if(custGroupID = '0'){
-        console.log('No Customer Group Found')
+        console.log('No Customer Group Found');
     }else {
         console.log('Something happened when getting customer groups');
     }
 }
 
-Ecwid.OnSetProfile.add(function(customer){
+window.Ecwid.OnSetProfile.add(function(customer){
     console.log('Member signed in');
     console.log('Member data is: ' + JSON.stringify(customer));
     const membership = customer.membership;
 
     run(membership.id);
 
-})
+});
 // window.Ecwid.OnPageLoaded.add(function(page){
 //     alert('Page loaded: '+page.type);
 //     alert('About to run function run()');
