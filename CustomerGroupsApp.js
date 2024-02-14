@@ -17,8 +17,8 @@ function getGroups(){
         headers: {accept:'application/json', Authorization: public_token}
     };
     var xhttp = new XMLHttpRequest();
-    xhttp.open("GET", requestURLGroups, true);
-    xhttp.setRequestHeader("Authorization", public_token)
+    xhttp.open(grOPT.method, requestURLGroups, true);
+    xhttp.setRequestHeader(grOPT,public_token);
     xhttp.send();
 
     xhttp.onreadystatechange = function() {
@@ -52,21 +52,21 @@ function resetProducts(){
         alert('FOR ' + productID + ' ');
         var reqURL_Products = 'https://app.ecwid.com/api/v3/'+storeId+'/products/'+productID;
         const Product = {};
-        const productGET = {
-            method: 'GET',
-            headers: {accept:'application/json', Authorization: public_token}
-        };
-        const productPUT = {
-            method: 'PUT',
-            headers: {accept:'application/json', 
-            Authorization: public_token,
-            'content/type':'application/json'
-            }
-        };
+        // const productGET = {
+        //     method: 'GET',
+        //     headers: {accept:'application/json', Authorization: public_token}
+        // };
+        // const productPUT = {
+        //     method: 'PUT',
+        //     headers: {accept:'application/json', 
+        //     Authorization: public_token,
+        //     'content/type':'application/json'
+        //     }
+        // };
 
         var get = new XMLHttpRequest();
         get.open("GET", reqURL_Products, true);
-        get.setRequestHeader("Authorization", public_token)
+        get.setRequestHeader("Authorization", public_token);
         get.send();
     
         get.onreadystatechange = function() {
@@ -99,7 +99,7 @@ function resetProducts(){
 
         var put = new XMLHttpRequest();
         put.open("PUT", reqURL_Products, true);
-        put.setRequestHeader("Authorization", public_token)
+        put.setRequestHeader("Authorization", public_token);
         put.send(JSON.stringify(Product));
         
         put.onreadystatechange = function() {
@@ -125,20 +125,20 @@ function runProducts(){
         alert('For product id: '+productID);
         var reqURL_Products = 'https://app.ecwid.com/api/v3/'+storeId+'/products/'+productID;
         const Product = {};
-        const productGET = {
-            method: 'GET',
-            headers: {accept:'application/json', Authorization: public_token}
-        };
-        const productPUT = {
-            method: 'PUT',
-            headers: {accept:'application/json', 
-            Authorization: public_token,
-            'content/type':'application/json'
-            }
-        };
+        // const productGET = {
+        //     method: 'GET',
+        //     headers: {accept:'application/json', Authorization: public_token}
+        // };
+        // const productPUT = {
+        //     method: 'PUT',
+        //     headers: {accept:'application/json', 
+        //     Authorization: public_token,
+        //     'content/type':'application/json'
+        //     }
+        // };
         var xhttp = new XMLHttpRequest();
         xhttp.open("GET", reqURL_Products, true);
-        xhttp.setRequestHeader("Authorization", public_token)
+        xhttp.setRequestHeader("Authorization", public_token);
         xhttp.send();
     
         xhttp.onreadystatechange = function() {
@@ -276,7 +276,7 @@ function runProducts(){
             }
             var put = new XMLHttpRequest();
             put.open("PUT", reqURL_Products, true);
-            put.setRequestHeader("Authorization", public_token)
+            put.setRequestHeader("Authorization", public_token);
             put.send(JSON.stringify(Product));
         
             put.onreadystatechange = function() {
