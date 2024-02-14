@@ -5,43 +5,10 @@ const customerInfo = {};
 const cxGrId = {};
 var storeId = 98501509;
 var public_token = 'Bearer public_PUb7yJJDWc5RYj1nL7aXHJFT5j5bn2hW';
-var requestURLGroups = 'https://app.ecwid.com/api/v3/'+storeId+'/customer_groups';
+
 //FOR LIVE SITE const products = ['613224679','613222359','613224661','613222163','613225187','613226056','JACKS>>','613233550','613231400','613223218','613232937','613221650','613234818','613223104']; //Calmag, Cleanse, Fade, Bloom, Core, Grow // Jacks Part A, B, Bloom, Epsom, RO, Ultra Violet, Finish
 //For test site
 const products = ['625285756','625238809', '625270554', '625285757']
-//Get the customer and their group
-function getGroups(){
-    alert('Getting group ids');
-    var caughtID = '';
-
-    var xhttp = new XMLHttpRequest();
-    xhttp.open('GET', requestURLGroups, true);
-    xhttp.setRequestHeader('Authorization', public_token);
-    xhttp.send();
-
-    xhttp.onreadystatechange = function() {
-        if (xhttp.readyState == 4 && xhttp.status == 200) {
-            var customerInfo = xhttp.responseJSON;
-            caughtID = customerInfo.customerGroupID;
-            alert(customerInfo); // prints response in format of Search Products request in Ecwid API
-        }else{
-            alert(xhttp.readyState + '<<State | Status>> '+xhttp.statusText);
-        }
-    };
-
-    caughtID = customerInfo.customerGroupId;
-    alert('Caught ID: '+ caughtID);
-    if (caughtID != null){
-        alert('Fetched '+caughtID);
-        return caughtID;
-    } else{
-        alert('Error catching ID');
-        return '0';
-    }
-    
-    //Some magic or some shit
-}
-
 
 ///////////To reset product prices
 function resetProducts(){
@@ -296,38 +263,46 @@ function runProducts(){
     
     }
 }
-function run(){
+function run(custGroupID){
     alert('Running RUN()');
-    cxGrId = getGroups();
-    if(cxGrId != ''){
-        for(ids of cxGrId){
-            if(customerInfo.customerGroup = '23865254'){
-                //Get Products and replaces their pricing
-                alert('RUNNING PRODUCTS');
-                runProducts();
+    
+    if(custGroupID = '23865254'){
+        alert('RUNNING PRODUCTS');
+        runProducts();
+        // for(ids of cxGrId){
+        //     if(customerInfo.customerGroup = '23865254'){
+        //         //Get Products and replaces their pricing
+        //         alert('RUNNING PRODUCTS');
+        //         runProducts();
                 
-            }else{
-                alert('RESETTING PRODUCTS');
-                resetProducts();
-            }
-        }
-    }else{
-        alert('ERRORRRR COLLECTING GROUPS FAILED :(');
+        //     }else{
+        //         alert('RESETTING PRODUCTS');
+        //         resetProducts();
+        //     }
+        // }
+    }else if(custGroupID = '0'){
+        alert('No Customer Group Found')
+    }else {
+        alert('Something happened when getting customer groups');
     }
 }
 
-window.Ecwid.OnPageLoaded.add(function(page){
-    alert('Page loaded: '+page.type);
-    alert('About to run function run()');
-    run();
-    // if(page.type == 'CATEGORY'){
-    //     run();
-    // }else if(page.type == 'PRODUCT'){
+Ecwid.OnSetProfile.add(function(customer){
+    run(customer.membership.id);
+
+})
+// window.Ecwid.OnPageLoaded.add(function(page){
+//     alert('Page loaded: '+page.type);
+//     alert('About to run function run()');
+//     run();
+//     // if(page.type == 'CATEGORY'){
+//     //     run();
+//     // }else if(page.type == 'PRODUCT'){
         
-    // }else{
-    //     alert('ERROR ' + JSON.stringify(page.type));
-    // }
+//     // }else{
+//     //     alert('ERROR ' + JSON.stringify(page.type));
+//     // }
     
-});
+// });
 
 
