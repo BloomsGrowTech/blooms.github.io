@@ -83,12 +83,15 @@ function resetProducts(){
 }
 //Get the products to be enabled and disabled
 function runProducts(){
+    alert('in runProducts()');
     //uses product id's to deactivate and activate
-    const productToActivate = [];
-    const productsToDeactivate = [];
+    // const productToActivate = [];
+    // const productsToDeactivate = [];
     //for loop required here for each product to activate and deactivate
     
+    //To alter pricing
     for(const productID of products){
+        alert('For product id: '+productID);
         var reqURL_Products = 'https://app.ecwid.com/api/v3/'+storeId+'/products/'+productID;
         const Product = {};
         const productGET = {

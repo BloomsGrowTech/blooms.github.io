@@ -7,9 +7,11 @@ var public_token = 'Bearer public_PUb7yJJDWc5RYj1nL7aXHJFT5j5bn2hW';
 var requestURLGroups = 'https://app.ecwid.com/api/v3/'+storeId+'/customer_groups';
 //FOR LIVE SITE const products = ['613224679','613222359','613224661','613222163','613225187','613226056','JACKS>>','613233550','613231400','613223218','613232937','613221650','613234818','613223104']; //Calmag, Cleanse, Fade, Bloom, Core, Grow // Jacks Part A, B, Bloom, Epsom, RO, Ultra Violet, Finish
 //For test site
-const products = ['625285756','625238809']
+const products = ['625285756','625238809', '625270554', '625285757']
 //Get the customer and their group
 function getGroups(){
+    alert('Getting group ids');
+    var caughtID;
     const grOPT = {
         method: 'GET',
         headers: {accept:'application/json', Authorization: public_token}
@@ -20,32 +22,24 @@ function getGroups(){
         .then(response => console.log(response))
         .then(customerInfo = response)
         .catch(err => console.error(err));
-    cxGrId = JSON.stringify(customerInfo.customerGroupId);
+    caughtID = JSON.stringify(customerInfo.customerGroupId);
+    if (caughtID != null){
+        alert('Fetched '+caughtID);
+        return caughtID;
+    } else{
+        alert('Error catching ID');
+        return '0';
+    }
     
     //Some magic or some shit
 }
 
-function run(){
-    getGroups();
-    if(cxGrId != ''){
-        for(ids of cxGrId){
-            if(customerInfo.customerGroup = '23865254'){
-                //Get Products and replaces their pricing
-                runProducts();
-            }
-        }
-    }else{
-        console.log("error collecting groups");
-    }
-}
-//Get the products to be enabled and disabled
-function runProducts(){
-    //uses product id's to deactivate and activate
-    const productToActivate = [];
-    const productsToDeactivate = [];
-    //for loop required here for each product to activate and deactivate
-    
-    for(const productID of products){
+
+///////////To reset product prices
+function resetProducts(){
+    alert('Resetting products');
+    for (const productID of products){
+        alert('FOR ' + productID + ' ');
         var reqURL_Products = 'https://app.ecwid.com/api/v3/'+storeId+'/products/'+productID;
         const Product = {};
         const productGET = {
@@ -60,11 +54,75 @@ function runProducts(){
             }
         };
 
-        fetch(reqURL_Products, productGET)
-        .then(response => response.json())
-        .then(response => console.log(response))
-        .then(Product = response)
-        .catch(err => console.error(err));
+        // fetch(reqURL_Products, productGET)
+        // .then(response => response.json())
+        // .then(response => console.log(response))
+        // .then(Product = response)
+        // .catch(err => console.error(err));
+        alert(Product.name + Product.price);
+        if (Product.productID = productID){
+            switch(productID){ //Resets product price
+                case productID = '625285756': //Nutrient
+                    Product.price = '275.00';
+                    break;
+                case productID = '625238809': //Additive
+                    Product.price = '85.00';
+                    break;
+                case productID = '625270554': //Humidifier
+                    Product.price = '1500';
+                    break;
+                case productID = '625285757': //Dehumidifier
+                    Product.price = '1900';
+                    break;
+            }
+        }
+        alert('saving data');
+
+        // fetch(reqURL_Products, productPUT)
+        // .then(response => response.json())
+        // .then(response => console.log(response))
+        // .catch(err => console.error(err));
+    }
+}
+//Get the products to be enabled and disabled
+function runProducts(){
+    //uses product id's to deactivate and activate
+    const productToActivate = [];
+    const productsToDeactivate = [];
+    //for loop required here for each product to activate and deactivate
+    
+    for(const productID of products){
+        alert('Running Product for id: '+productID);
+        var reqURL_Products = 'https://app.ecwid.com/api/v3/'+storeId+'/products/'+productID;
+        var xhttp = new XMLHttpRequest();
+        
+        const Product = {};
+        const productGET = {
+            method: 'GET',
+            headers: {accept:'application/json', Authorization: public_token}
+        };
+        const productPUT = {
+            method: 'PUT',
+            headers: {accept:'application/json', 
+            Authorization: public_token,
+            'content/type':'application/json'
+            }
+        };
+
+        xhttp.open(productGET.method, reqURL_Products, true);
+        xhttp.setRequestHeader("Authorization", public_token);
+        xhttp.send();
+        xhttp.onreadystatechange = function(){
+            if(xhttp.readyState == 4 && xhttp.status == 200){
+                Product = xhttp.responseText;
+                alert(Product);
+            }
+        }
+        // fetch(reqURL_Products, productGET)
+        // .then(response => response.json())
+        // .then(response => console.log(response))
+        // .then(Product = response)
+        // .catch(err => console.error(err));
         //Gotta have that double redundancy to change pricing depending on the ID
         if (Product.productID = productID){
             switch(productID){
@@ -74,6 +132,12 @@ function runProducts(){
                     break;
                 case productID = '625238809':
                     Product.price = '77.00';
+                    break;
+                case productID = '625270554': //Humidifier
+                    Product.price = '1250';
+                    break;
+                case productID = '625285757': //Dehumidifier
+                    Product.price = '1650';
                     break;
                 // ////////////////////For Athena////////////////////
                 // case productID = '': //For Athena Pro Gro
@@ -191,10 +255,37 @@ function runProducts(){
     
     }
 }
-Ecwid.OnPageLoaded.add(function(page){
-    if(page.type == 'CATEGORY'){
-        run();
+function run(){
+    alert('Running RUN()');
+    cxGrId = getGroups();
+    if(cxGrId != ''){
+        for(ids of cxGrId){
+            if(customerInfo.customerGroup = '23865254'){
+                //Get Products and replaces their pricing
+                alert('RUNNING PRODUCTS');
+                runProducts();
+                
+            }else{
+                alert('RESETTING PRODUCTS');
+                resetProducts();
+            }
+        }
+    }else{
+        alert('ERRORRRR COLLECTING GROUPS FAILED :(');
     }
+}
+
+window.Ecwid.OnPageLoad.add(function(page){
+    alert('Page loaded: '+page.type);
+    alert('About to run function run()');
+    run();
+    // if(page.type == 'CATEGORY'){
+    //     run();
+    // }else if(page.type == 'PRODUCT'){
+        
+    // }else{
+    //     alert('ERROR ' + JSON.stringify(page.type));
+    // }
     
 });
 
