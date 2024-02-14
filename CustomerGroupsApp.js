@@ -28,9 +28,9 @@ function getGroups(){
         }
     };
 
-    caughtID = JSON.stringify(customerInfo.customerGroupId);
+    caughtID = customerInfo.customerGroupId;
     alert('Caught ID: '+ caughtID);
-    if (caughtID != undefined){
+    if (caughtID != null){
         alert('Fetched '+caughtID);
         return caughtID;
     } else{
