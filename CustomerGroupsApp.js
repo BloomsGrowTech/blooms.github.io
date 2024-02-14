@@ -297,8 +297,8 @@ Ecwid.OnPageLoaded.add(function(page){
     const Cust = Ecwid.OnSetProfile.add(function(customer){
         console.log('Member signed in');
         console.log('data is: ' + JSON.stringify(customer));
-        const membership = customer.membership;
-    
+        return customer;
+        
     });
     if (Cust.membership.id != 0){  
         run(membership.id);
