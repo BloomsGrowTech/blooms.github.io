@@ -293,8 +293,8 @@ function run(custGroupID){
     }
 }
 
-Ecwid.OnPageLoaded.add(function(page){
-    const Cust = Ecwid.OnSetProfile.add(function(customer){
+window.Ecwid.OnPageLoaded.add(function(page){
+    var Cust = Ecwid.OnSetProfile.add(function(customer){
         console.log('Member signed in');
         console.log('data is: ' + JSON.stringify(customer));
         return customer;
