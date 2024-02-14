@@ -16,21 +16,12 @@ function getGroups(){
         method: 'GET',
         headers: {accept:'application/json', Authorization: public_token}
     };
-    var xhttp = new XMLHttpRequest();
-    xhttp.open("GET", requestURLGroups, true);
-    xhttp.setRequestHeader("Authorization", public_token)
-    xhttp.send();
-
-    xhttp.onreadystatechange = function() {
-        if (xhttp.readyState == 4 && xhttp.status == 200) {
-            var customerInfo = xhttp.responseJSON;
-            caughtID = customerInfo.customerGroupID;
-            alert(apiResponse); // prints response in format of Search Products request in Ecwid API
-        }else{
-            alert(xhttp.readyState + '<<State | Status>> '+xhttp.statusText);
-        }
-    };
-
+    
+    fetch(requestURLGroups, grOPT)
+        .then(response => response.json())
+        .then(response => alert(response))
+        .then(customerInfo = response)
+        .catch(err => console.error(err));
     caughtID = JSON.stringify(customerInfo.customerGroupId);
     alert('Caught ID: '+ caughtID);
     if (caughtID != ''){
@@ -47,7 +38,6 @@ function getGroups(){
 
 ///////////To reset product prices
 function resetProducts(){
-    alert('Resetting Products');
     for (const productID of products){
         alert('FOR ' + productID + ' ');
         var reqURL_Products = 'https://app.ecwid.com/api/v3/'+storeId+'/products/'+productID;
@@ -64,23 +54,13 @@ function resetProducts(){
             }
         };
 
-        var get = new XMLHttpRequest();
-        get.open("GET", reqURL_Products, true);
-        get.setRequestHeader("Authorization", public_token)
-        get.send();
-    
-        get.onreadystatechange = function() {
-            if (xhttp.readyState == 4 && xhttp.status == 200) {
-                var apiResponse = xhttp.responseJSON;
-                caughtID = customerInfo.customerGroupID;
-                alert(apiResponse); // prints response in format of Search Products request in Ecwid API
-            }else{
-                alert(xhttp.readyState + '<<State | Status>> '+xhttp.statusText);
-            }
-        };
-    
+        fetch(reqURL_Products, productGET)
+        .then(response => response.json())
+        .then(response => console.log(response))
+        .then(Product = response)
+        .catch(err => console.error(err));
+        alert(Product.name + Product.price);
         if (Product.productID = productID){
-            alert('Product ids match, finding which product');
             switch(productID){ //Resets product price
                 case productID = '625285756': //Nutrient
                     Product.price = '275.00';
@@ -96,20 +76,10 @@ function resetProducts(){
                     break;
             }
         }
-
-        var put = new XMLHttpRequest();
-        put.open("PUT", reqURL_Products, true);
-        put.setRequestHeader("Authorization", public_token)
-        put.send(JSON.stringify(Product));
-        
-        put.onreadystatechange = function() {
-            if (xhttp.readyState == 4 && xhttp.status == 200) {
-                var apiResponse = xhttp.responseText;
-                alert(apiResponse); // prints response in format of Search Products request in Ecwid API
-            }else{
-                alert(xhttp.readyState + '<<State | Status>> '+xhttp.statusText);
-            }
-        };
+        fetch(reqURL_Products, productPUT)
+        .then(response => response.json())
+        .then(response => console.log(response))
+        .catch(err => console.error(err));
     }
 }
 //Get the products to be enabled and disabled
@@ -136,25 +106,12 @@ function runProducts(){
             'content/type':'application/json'
             }
         };
-        var xhttp = new XMLHttpRequest();
-        xhttp.open("GET", reqURL_Products, true);
-        xhttp.setRequestHeader("Authorization", public_token)
-        xhttp.send();
-    
-        xhttp.onreadystatechange = function() {
-            if (xhttp.readyState == 4 && xhttp.status == 200) {
-                var productInfo = xhttp.responseJSON;
-                Product = productInfo;
-                alert(xhttp.responseText); // prints response in format of Search Products request in Ecwid API
-            }else{
-                alert(xhttp.readyState + '<<State | Status>> '+xhttp.statusText);
-            }
-        };
-        // fetch(reqURL_Products, productGET)
-        // .then(response => response.json())
-        // .then(response => console.log(response))
-        // .then(Product = response)
-        // .catch(err => console.error(err));
+
+        fetch(reqURL_Products, productGET)
+        .then(response => response.json())
+        .then(response => console.log(response))
+        .then(Product = response)
+        .catch(err => console.error(err));
         //Gotta have that double redundancy to change pricing depending on the ID
         if (Product.productID = productID){
             switch(productID){
@@ -274,19 +231,10 @@ function runProducts(){
                 //         Product.price = '46.8';
                 //         break;
             }
-            var put = new XMLHttpRequest();
-            put.open("PUT", reqURL_Products, true);
-            put.setRequestHeader("Authorization", public_token)
-            put.send(JSON.stringify(Product));
-        
-            put.onreadystatechange = function() {
-                if (xhttp.readyState == 4 && xhttp.status == 200) {
-                   var apiResponse = xhttp.responseText;
-                   alert(apiResponse); // prints response in format of Search Products request in Ecwid API
-                }else{
-                    alert(xhttp.readyState + '<<State | Status>> '+xhttp.statusText);
-                }
-            };
+            fetch(reqURL_Products, productPUT)
+            .then(response => response.json())
+            .then(response => console.log(response))
+            .catch(err => console.error(err));
         }
     
 
