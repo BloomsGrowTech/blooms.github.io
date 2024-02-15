@@ -2,12 +2,12 @@ import { get, put } from 'axios';
 
 const storeId = 98501509;
 const publicToken = 'Bearer public_PUb7yJJDWc5RYj1nL7aXHJFT5j5bn2hW';
-
+const privateToken = '';
 const groupID = '23865254';
 const products = ['625285756','625238809', '625270554', '625285757'];
 const categoryIDs = ['163181566','163184815','163191832'];
 // Function to apply discounts for a specific customer group
-async function applyDiscounts() {
+async function applyDiscountsForCategories() {
     try {
         // Iterate over category IDs
         for (const categoryId of categoryIDs) {
@@ -23,22 +23,19 @@ async function applyDiscounts() {
             // Iterate over products
             for (const product of products) {
                 // Check if the product is in the list of products to apply discount to
-                if (!products.includes(product.id)) {
+                if (!productsToDiscount.includes(product.id)) {
                     continue;
                 }
-                if(!product.wholesalePrice){
-                    console.log(`No wholesale pricing avialable for Product ID ${product.id}`);
-                    continue;
-                }
+
                 // Calculate discounted price (wholesale cost)
-                const discountedPrice = parseFloat(product.wholesalePrice) * 1.20;
+                const discountedPrice = parseFloat(product.wholesalePrice);
 
                 // Update product price in Ecwid
                 await put(`https://app.ecwid.com/api/v3/${storeId}/products/${product.id}`, {
-                    price: discountedPrice //Updates the price
+                    price: discountedPrice
                 }, {
                     params: {
-                        token: publicToken 
+                        token: privateToken
                     }
                 });
 
@@ -55,5 +52,5 @@ async function applyDiscounts() {
 
 // Call function to apply discounts when page loads
 window.onload = function() {
-    applyDiscounts();
+    applyDiscountsForCustomerGroup();
 };
